@@ -1,0 +1,41 @@
+# ACME Record Match
+
+**Entity resolution · fuzzy matching · data pipeline**
+
+![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
+![RapidFuzz](https://img.shields.io/badge/RapidFuzz-entity%20match-f59e0b)
+![Next.js](https://img.shields.io/badge/Next.js-console-000?logo=next.js&logoColor=white)
+![Data Pipeline](https://img.shields.io/badge/Data-dedup%20pipeline-ea580c)
+
+**GitHub topics:** `python`, `fastapi`, `entity-resolution`, `deduplication`, `data-pipeline`, `nextjs`
+
+| Layer | Path | Port |
+|-------|------|------|
+| **API** | `app/main.py` (FastAPI + RapidFuzz) | 8000 |
+| **Console** | `web/` (Next.js dashboard) | 3002 |
+
+## Run
+
+```bash
+# API
+cd acme-record-match
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8002
+
+# UI
+cd web
+npm install
+npm run dev
+```
+
+Set `NEXT_PUBLIC_API_URL` if API is not on `http://127.0.0.1:8000`.
+
+## Console
+
+Overview · Match workspace (upload + threshold) · Clusters · Pipeline · Analytics · Job log · Settings
+
+`GET /health` · `POST /api/match?threshold=88` · `GET /sample`
+
+## Upwork line
+
+Entity dedup demo — FastAPI fuzzy matching, React ops console, cluster review UI on sample vendor CSV.
