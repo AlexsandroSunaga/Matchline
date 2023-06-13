@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --record-paper: #f3ebe0;
+  --record-ink: #292018;
+  --record-accent: #ea580c;
+  --record-sidebar: #2a2118;
+}
+
+body.theme-record {
+  font-family: var(--font-dm), system-ui, sans-serif;
+  background-color: var(--record-paper);
+  color: var(--record-ink);
+}
+
+.theme-record-dash {
+  background: linear-gradient(180deg, #faf6f0 0%, #ebe3d6 100%);
+  color: #292018;
+}
+
+@layer utilities {
+  .paper-bg {
+    background-color: #f3ebe0;
+    background-image:
+      linear-gradient(rgba(41, 32, 24, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(41, 32, 24, 0.03) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .panel {
+    @apply bg-[#fffdf9] border border-stone-300/80 shadow-md shadow-stone-400/20 rounded-xl;
+  }
+  .glass {
+    @apply panel;
+  }
+}
