@@ -1,106 +1,57 @@
 from __future__ import annotations
 
-import csv
-import io
-from dataclasses import dataclass
-from typing import Any
+import logging
+from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, File, Query, UploadFile
+from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-from rapidfuzz import fuzz
+from fastapi.responses import HTMLResponse, JSONResponse
 
-DEFAULT_THRESHOLD = 88
+from app.api.router import api_router
+from app.core.config import settings
+from app.core.logging import configure_logging
+from app.middleware.request_id import RequestIdMiddleware
+from app.services.matcher import cluster_records, parse_csv
 
-app = FastAPI(title="ACME Record Match", version="2.0.0")
+logger = logging.getLogger("acme.match")
 
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    configure_logging(settings.log_level)
+    logger.info("starting %s v%s", settings.app_name, settings.app_version)
+    yield
+
+
+app = FastAPI(title=settings.app_name, version=settings.app_version, lifespan=lifespan)
+app.add_middleware(RequestIdMiddleware)
+
+origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3002",
-        "http://127.0.0.1:3002",
-    ],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-@dataclass
-class Record:
-    row_id: int
-    name: str
-    email: str
+app.include_router(api_router)
 
 
-def parse_csv(content: bytes) -> list[Record]:
-    text = content.decode("utf-8-sig", errors="replace")
-    reader = csv.DictReader(io.StringIO(text))
-    if not reader.fieldnames or "name" not in [f.lower() for f in reader.fieldnames]:
-        raise ValueError("CSV must include a 'name' column")
-    fields = {f.lower(): f for f in reader.fieldnames}
-    name_col = fields["name"]
-    email_col = fields.get("email")
-    records: list[Record] = []
-    for i, row in enumerate(reader):
-        name = (row.get(name_col) or "").strip()
-        email = (row.get(email_col) or "").strip() if email_col else ""
-        if name:
-            records.append(Record(row_id=i, name=name, email=email))
-    return records
+@app.exception_handler(ValueError)
+async def value_error_handler(_: Request, exc: ValueError) -> JSONResponse:
+    return JSONResponse(status_code=422, content={"detail": str(exc)})
 
 
-def cluster_records(records: list[Record], threshold: int) -> list[dict[str, Any]]:
-    clusters: list[list[Record]] = []
-    for rec in records:
-        placed = False
-        for cluster in clusters:
-            rep = cluster[0]
-            if fuzz.token_sort_ratio(rec.name.lower(), rep.name.lower()) >= threshold:
-                cluster.append(rec)
-                placed = True
-                break
-        if not placed:
-            clusters.append([rec])
-    out = []
-    for idx, cluster in enumerate(clusters):
-        if len(cluster) < 2:
-            continue
-        scores = []
-        canonical = cluster[0].name
-        for m in cluster[1:]:
-            scores.append(fuzz.token_sort_ratio(m.name.lower(), canonical.lower()))
-        out.append(
-            {
-                "clusterId": idx + 1,
-                "canonical": canonical,
-                "avgScore": round(sum(scores) / len(scores), 1) if scores else 100.0,
-                "members": [
-                    {"rowId": r.row_id, "name": r.name, "email": r.email} for r in cluster
-                ],
-            }
-        )
-    return out
-
-
-@app.get("/health")
-def health() -> dict[str, Any]:
-    return {
-        "status": "ok",
-        "defaultThreshold": DEFAULT_THRESHOLD,
-        "matcher": "rapidfuzz.token_sort_ratio",
-    }
-
-
-@app.get("/", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def index() -> str:
     return """<!DOCTYPE html><html><body style="font-family:system-ui;margin:2rem">
     <h1>ACME Record Match API</h1>
     <p>Use the React console on port <strong>3002</strong> or POST <code>/api/match</code>.</p>
-    <p><a href="/sample">Download sample CSV</a></p></body></html>"""
+    <p><a href="/sample">Download sample CSV</a> · <a href="/docs">OpenAPI</a></p></body></html>"""
 
 
-@app.get("/sample")
+@app.get("/sample", include_in_schema=False)
 def sample() -> HTMLResponse:
     sample_csv = (
         "name,email\n"
@@ -117,44 +68,12 @@ def sample() -> HTMLResponse:
     )
 
 
-@app.post("/api/match")
-async def match_json(
-    file: UploadFile = File(...),
-    threshold: int = Query(DEFAULT_THRESHOLD, ge=50, le=100),
-) -> dict[str, Any]:
+@app.post("/match", response_class=HTMLResponse, include_in_schema=False)
+async def match_html(file: UploadFile = File(...)) -> str:
     raw = await file.read()
     try:
         records = parse_csv(raw)
-    except ValueError as e:
-        return {
-            "error": str(e),
-            "recordCount": 0,
-            "clusterCount": 0,
-            "rowsInClusters": 0,
-            "singletonCount": 0,
-            "threshold": threshold,
-            "clusters": [],
-        }
-    all_clusters = cluster_records(records, threshold)
-    dup_rows = sum(len(c["members"]) for c in all_clusters)
-    clustered_ids = {m["rowId"] for c in all_clusters for m in c["members"]}
-    singletons = len(records) - len(clustered_ids)
-    return {
-        "recordCount": len(records),
-        "clusterCount": len(all_clusters),
-        "rowsInClusters": dup_rows,
-        "singletonCount": singletons,
-        "threshold": threshold,
-        "clusters": all_clusters,
-    }
-
-
-@app.post("/match", response_class=HTMLResponse)
-async def match(file: UploadFile = File(...)) -> str:
-    raw = await file.read()
-    try:
-        records = parse_csv(raw)
-        clusters = cluster_records(records, DEFAULT_THRESHOLD)
+        clusters = cluster_records(records, settings.default_threshold)
     except ValueError as e:
         return f"<pre>Error: {e}</pre>"
 

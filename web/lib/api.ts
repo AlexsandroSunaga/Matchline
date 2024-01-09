@@ -30,8 +30,10 @@ export const api = {
     const body = new FormData();
     body.append("file", file);
     return fetch(url, { method: "POST", body }).then(async (r) => {
-      const data = (await r.json()) as MatchResult;
-      if (!r.ok) throw new Error(data.error ?? `HTTP ${r.status}`);
+      const data = (await r.json()) as MatchResult & { detail?: string };
+      if (!r.ok) {
+        throw new Error(data.detail ?? data.error ?? `HTTP ${r.status}`);
+      }
       return data;
     });
   },
