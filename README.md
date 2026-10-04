@@ -36,6 +36,6 @@ Overview · Match workspace (upload + threshold) · Clusters · Pipeline · Anal
 
 `GET /health` · `POST /api/match?threshold=88` · `GET /sample`
 
-## Upwork line
+## Summary
 
-Entity dedup demo — FastAPI fuzzy matching, React ops console, cluster review UI on sample vendor CSV.
+Entity resolution with FastAPI + RapidFuzz, analyst console for match jobs and cluster review on CSV uploads.
