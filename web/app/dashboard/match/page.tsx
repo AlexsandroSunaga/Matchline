@@ -29,7 +29,7 @@ export default function MatchWorkspacePage() {
       setLastResult(data);
       setPhase("Complete");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Match failed — is API on :8000?");
+      setError(e instanceof Error ? e.message : "Match failed — is API on :8002?");
       setPhase("");
     } finally {
       setLoading(false);
