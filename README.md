@@ -1,5 +1,13 @@
 # Matchline
 
+## Screenshots
+
+![Matchline landing page](docs/screenshots/01-landing.png)
+![Overview dashboard](docs/screenshots/02-dashboard.png)
+![Match workspace with results from sample-vendors.csv](docs/screenshots/03-match-results.png)
+![Cluster review](docs/screenshots/04-clusters.png)
+
+
 **Entity resolution · fuzzy matching · data pipeline**
 
 ![Python](https://img.shields.io/badge/Python-FastAPI-3776AB?logo=python&logoColor=white)
@@ -39,3 +47,10 @@ Overview · Match workspace (upload + threshold) · Clusters · Pipeline · Anal
 ## Summary
 
 Entity resolution with FastAPI + RapidFuzz, analyst console for match jobs and cluster review on CSV uploads.
+
+## Tests
+
+```bash
+pip install -r requirements.txt -r requirements-dev.txt
+python -m pytest -q
+```
