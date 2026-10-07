@@ -6,7 +6,7 @@ const dm = DM_Sans({ subsets: ["latin"], variable: "--font-dm" });
 const mono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
-  title: "ACME Record Match",
+  title: "Matchline",
   description: "Entity resolution console — portfolio",
 };
 

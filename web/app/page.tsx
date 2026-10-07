@@ -8,7 +8,7 @@ export default function MarketingPage() {
       <div className="absolute top-0 right-0 w-[480px] h-[480px] bg-orange-300/30 rounded-full blur-3xl pointer-events-none" />
       <header className="relative max-w-6xl mx-auto px-6 py-6 flex justify-between items-center border-b border-stone-300/80">
         <div>
-          <p className="text-xs uppercase text-orange-700 font-bold tracking-widest">ACME Data</p>
+          <p className="text-xs uppercase text-orange-700 font-bold tracking-widest">Matchline Data</p>
           <p className="font-bold text-xl text-stone-900">Record Match</p>
         </div>
         <Link href="/dashboard">

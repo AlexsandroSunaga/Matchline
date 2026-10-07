@@ -7,7 +7,7 @@ from app.schemas.match import MatchResponse
 from app.services.matcher import cluster_records, parse_csv, summarize_match
 
 router = APIRouter(tags=["matching"])
-logger = logging.getLogger("acme.match")
+logger = logging.getLogger("matchline")
 
 
 @router.post("/api/match", response_model=MatchResponse)

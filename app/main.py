@@ -13,7 +13,7 @@ from app.core.logging import configure_logging
 from app.middleware.request_id import RequestIdMiddleware
 from app.services.matcher import cluster_records, parse_csv
 
-logger = logging.getLogger("acme.match")
+logger = logging.getLogger("matchline")
 
 
 @asynccontextmanager
@@ -46,7 +46,7 @@ async def value_error_handler(_: Request, exc: ValueError) -> JSONResponse:
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def index() -> str:
     return """<!DOCTYPE html><html><body style="font-family:system-ui;margin:2rem">
-    <h1>ACME Record Match API</h1>
+    <h1>Matchline API</h1>
     <p>Use the React console on port <strong>3002</strong> or POST <code>/api/match</code>.</p>
     <p><a href="/sample">Download sample CSV</a> · <a href="/docs">OpenAPI</a></p></body></html>"""
 
@@ -55,8 +55,8 @@ def index() -> str:
 def sample() -> HTMLResponse:
     sample_csv = (
         "name,email\n"
-        "Acme Supplies Inc,ops@acme-supplies.com\n"
-        "ACME Supplies Incorporated,ops@acme-supplies.com\n"
+        "Brightwell Supplies Inc,ops@brightwell-supplies.com\n"
+        "BRIGHTWELL Supplies Incorporated,ops@brightwell-supplies.com\n"
         "Beta Labs LLC,beta@labs.io\n"
         "Beta Labs,beta@labs.io\n"
         "Gamma Co,gamma@example.com\n"

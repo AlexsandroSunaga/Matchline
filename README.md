@@ -1,4 +1,4 @@
-# ACME Record Match
+# Matchline
 
 **Entity resolution · fuzzy matching · data pipeline**
 
@@ -11,14 +11,14 @@
 
 | Layer | Path | Port |
 |-------|------|------|
-| **API** | `app/main.py` (FastAPI + RapidFuzz) | 8000 |
+| **API** | `app/main.py` (FastAPI + RapidFuzz) | 8002 |
 | **Console** | `web/` (Next.js dashboard) | 3002 |
 
 ## Run
 
 ```bash
 # API
-cd acme-record-match
+cd matchline
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8002
 
@@ -28,7 +28,7 @@ npm install
 npm run dev
 ```
 
-Set `NEXT_PUBLIC_API_URL` if API is not on `http://127.0.0.1:8000`.
+Set `NEXT_PUBLIC_API_URL` if API is not on `http://127.0.0.1:8002`.
 
 ## Console
 
