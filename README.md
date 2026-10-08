@@ -28,6 +28,13 @@ The video walks through the landing page, dashboard and match workspace: it uplo
 | **API** | `app/main.py` (FastAPI + RapidFuzz) | 8002 |
 | **Console** | `web/` (Next.js dashboard) | 3002 |
 
+## Tech stack
+
+| Area | Technologies |
+|------|--------------|
+| Frontend | `Next.js`, `React`, `TypeScript`, `Tailwind CSS`, `Radix UI`, `Framer Motion`, `Recharts`, `cmdk` |
+| Backend | `Python`, `FastAPI`, `RapidFuzz`, `Pydantic Settings`, `pytest` |
+
 ## Run
 
 ```bash
