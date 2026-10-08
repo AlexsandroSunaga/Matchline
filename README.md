@@ -1,5 +1,11 @@
 # Matchline
 
+## Demo
+
+[![Matchline demo](docs/demo/demo.gif)](docs/demo/demo.mp4)
+
+The video walks through the landing page, dashboard and match workspace: it uploads `data/sample-vendors.csv`, lowers the threshold, runs the job and reviews the resulting cluster. [Watch the MP4](docs/demo/demo.mp4).
+
 ## Screenshots
 
 ![Matchline landing page](docs/screenshots/01-landing.png)
