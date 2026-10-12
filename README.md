@@ -1,6 +1,6 @@
 # Matchline
 
-## Demo
+## Video
 
 [![Matchline demo](docs/demo/demo.gif)](docs/demo/demo.mp4)
 
