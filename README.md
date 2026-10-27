@@ -74,4 +74,4 @@ python -m pytest -q
 
 ## License
 
-MIT License — Copyright (c) 2026 Alexsandro Sunaga. See the license section in this repository for full terms.
+MIT License — Copyright (c) 2026 Alexsandro Sunaga. See [LICENSE](LICENSE).
