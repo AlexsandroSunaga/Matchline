@@ -1,36 +1,41 @@
 "use client";
 
 import { TopBar } from "@/components/layout/TopBar";
-import { Badge } from "@/components/ui/Badge";
-import { jobLog } from "@/lib/demo-data";
+import { useMatchStore } from "@/lib/match-context";
 
 export default function ActivityPage() {
+  const { history } = useMatchStore();
+
   return (
     <>
-      <TopBar title="Job log" subtitle="Batch match history (demo rows)" />
+      <TopBar title="Job log" subtitle="Match runs since you opened this page" />
       <div className="p-6 glass rounded-2xl overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="text-xs uppercase text-slate-500 text-left bg-slate-900/90">
-            <tr>
-              <th className="px-4 py-3">File</th>
-              <th className="px-4 py-3">Records</th>
-              <th className="px-4 py-3">Clusters</th>
-              <th className="px-4 py-3">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jobLog.map((j) => (
-              <tr key={j.id} className="border-t border-slate-800">
-                <td className="px-4 py-3">{j.name}</td>
-                <td className="px-4 py-3 font-mono">{j.records}</td>
-                <td className="px-4 py-3 font-mono">{j.clusters}</td>
-                <td className="px-4 py-3">
-                  <Badge variant={j.status === "completed" ? "success" : "warning"}>{j.status}</Badge>
-                </td>
+        {history.length === 0 ? (
+          <p className="text-sm text-slate-500">No runs yet.</p>
+        ) : (
+          <table className="w-full text-sm">
+            <thead className="text-xs uppercase text-slate-500 text-left bg-slate-900/90">
+              <tr>
+                <th className="px-4 py-3">File</th>
+                <th className="px-4 py-3">Records</th>
+                <th className="px-4 py-3">Groups</th>
+                <th className="px-4 py-3">Threshold</th>
+                <th className="px-4 py-3">Time</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {history.map((run) => (
+                <tr key={run.id} className="border-t border-slate-800">
+                  <td className="px-4 py-3">{run.file}</td>
+                  <td className="px-4 py-3 font-mono">{run.records}</td>
+                  <td className="px-4 py-3 font-mono">{run.clusters}</td>
+                  <td className="px-4 py-3 font-mono">{run.threshold}</td>
+                  <td className="px-4 py-3 text-slate-500">{run.at}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
     </>
   );

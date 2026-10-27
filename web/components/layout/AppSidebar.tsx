@@ -64,7 +64,7 @@ export function AppSidebar({ mobile }: { mobile?: boolean }) {
           </div>
         ))}
       </nav>
-      <p className="p-3 text-[10px] text-stone-600 border-t border-stone-700">Portfolio · Alexsandro</p>
+      <p className="p-3 text-[10px] text-stone-600 border-t border-stone-700">Sample data only</p>
     </aside>
   );
 }

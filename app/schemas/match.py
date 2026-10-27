@@ -5,6 +5,7 @@ class MemberOut(BaseModel):
     rowId: int
     name: str
     email: str
+    matchedBy: str = ""
 
 
 class ClusterOut(BaseModel):

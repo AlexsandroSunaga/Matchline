@@ -16,27 +16,28 @@ export default function MarketingPage() {
         </Link>
       </header>
       <section className="relative max-w-6xl mx-auto px-6 py-16">
-        <p className="text-sm text-stone-600">Pipeline pillar · warm paper UI · Alexsandro Sunaga</p>
+        <p className="text-sm text-stone-600">Built by Alexsandro Sunaga</p>
         <h1 className="text-4xl md:text-5xl font-bold mt-4 max-w-3xl text-stone-900 leading-tight">
-          Dedup vendor data on a{" "}
+          Find the duplicate companies in your{" "}
           <span className="text-orange-600 underline decoration-orange-300 decoration-4 underline-offset-4">
-            analyst workbench
+            vendor list
           </span>
         </h1>
         <p className="mt-6 text-lg text-stone-700 max-w-2xl">
-          Stone sidebar, paper grid background, orange accents — built to look different from the purple RAG app and cyan support desk.
+          Upload a CSV and see which rows are the same business written differently, such as Acme Inc, ACME Incorporated and
+          Acme Ltd. Review the groups, then download one clean row per company.
         </p>
         <Link href="/dashboard/match" className="inline-block mt-8">
           <Button size="lg" className="gap-2">
-            Start match job <ArrowRight className="h-4 w-4" />
+            Try it with a sample file <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
       </section>
       <section className="relative max-w-6xl mx-auto px-6 pb-24 grid md:grid-cols-3 gap-5">
         {[
-          { icon: Upload, title: "Match workspace", desc: "CSV upload on cream panels." },
-          { icon: GitMerge, title: "Cluster review", desc: "Merge tables with confidence scores." },
-          { icon: Workflow, title: "Pipeline", desc: "Ingest → block → review story." },
+          { icon: Upload, title: "Match workspace", desc: "Upload a CSV, set how strict the match is, and run it." },
+          { icon: GitMerge, title: "Duplicate groups", desc: "Each group says why a row is in it: a similar name, the same email, or both." },
+          { icon: Workflow, title: "Clean export", desc: "Download one row per company with the source rows it replaces." },
         ].map((f) => (
           <div key={f.title} className="panel p-6">
             <f.icon className="h-8 w-8 text-orange-600 mb-4" />
@@ -45,6 +46,9 @@ export default function MarketingPage() {
           </div>
         ))}
       </section>
+      <footer className="relative max-w-6xl mx-auto px-6 pb-10 text-xs text-stone-500">
+        The sample vendors are made up.
+      </footer>
     </div>
   );
 }

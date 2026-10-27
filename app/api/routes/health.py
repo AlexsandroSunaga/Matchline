@@ -12,5 +12,5 @@ def health() -> HealthResponse:
         status="ok",
         version=settings.app_version,
         defaultThreshold=settings.default_threshold,
-        matcher="rapidfuzz.token_sort_ratio",
+        matcher="rapidfuzz token_sort_ratio + same email",
     )

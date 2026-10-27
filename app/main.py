@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, File, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -51,18 +52,13 @@ def index() -> str:
     <p><a href="/sample">Download sample CSV</a> · <a href="/docs">OpenAPI</a></p></body></html>"""
 
 
+SAMPLE_FILE = Path(__file__).resolve().parent.parent / "data" / "sample-vendors.csv"
+
+
 @app.get("/sample", include_in_schema=False)
 def sample() -> HTMLResponse:
-    sample_csv = (
-        "name,email\n"
-        "Brightwell Supplies Inc,ops@brightwell-supplies.com\n"
-        "BRIGHTWELL Supplies Incorporated,ops@brightwell-supplies.com\n"
-        "Beta Labs LLC,beta@labs.io\n"
-        "Beta Labs,beta@labs.io\n"
-        "Gamma Co,gamma@example.com\n"
-    )
     return HTMLResponse(
-        content=sample_csv,
+        content=SAMPLE_FILE.read_text(encoding="utf-8"),
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=sample-vendors.csv"},
     )

@@ -20,7 +20,7 @@ export type NavItem = {
 export const dashboardNav: NavItem[] = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard, group: "workspace" },
   { href: "/dashboard/match", label: "Match workspace", icon: Upload, group: "workspace", keywords: "csv dedup" },
-  { href: "/dashboard/clusters", label: "Clusters", icon: GitMerge, group: "pipeline" },
+  { href: "/dashboard/clusters", label: "Duplicate groups", icon: GitMerge, group: "pipeline" },
   { href: "/dashboard/pipeline", label: "Pipeline", icon: Workflow, group: "pipeline" },
   { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3, group: "pipeline" },
   { href: "/dashboard/activity", label: "Job log", icon: Activity, group: "admin" },
