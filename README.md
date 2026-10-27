@@ -4,7 +4,7 @@
 
 [![Matchline demo](docs/demo/demo.gif)](docs/demo/demo.mp4)
 
-About 45 seconds, recorded from the running app: it loads the sample vendor list (107 made-up rows), runs the match at threshold 88 and at 76, reviews the duplicate groups and downloads the cleaned CSV. [Watch the MP4](docs/demo/demo.mp4).
+About 35 seconds, recorded from the running app: it loads the sample vendor list (107 made-up rows), runs the match at threshold 88 and at 76, reviews the duplicate groups and downloads the cleaned CSV. [Watch the MP4](docs/demo/demo.mp4).
 
 ## Screenshots
 
